@@ -2,7 +2,7 @@ package com.contact.api.controller;
 
 import com.contact.api.dto.response.ContactResponseDto;
 import com.contact.api.model.Contact;
-import com.contact.api.repository.ContactRepository;
+import com.contact.api.service.ContactService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,49 +16,33 @@ import java.util.*;
 @RestController
 public class Controller {
     @Autowired
-    private ContactRepository repository;
+    private ContactService contactService;
 
     @PostMapping("/contact")
-    public Contact contactCreate(@RequestBody Contact contact){
-        return (Contact) repository.save(contact);
+    public Contact contactCreate(@RequestBody Contact contact) {
+        return contactService.save(contact);
     }
 
     @GetMapping("/contact")
     public Page<Contact> contactList(@RequestParam(defaultValue = "0") final Integer pageNumber,
-                                     @RequestParam(defaultValue = "5") final Integer size
-        ){
+                                     @RequestParam(defaultValue = "5") final Integer size) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
-        return repository.findAll(pageRequest);
-
+        return contactService.findAll(pageRequest);
     }
 
     @GetMapping("/contact/{uuid}")
-    public Object contactByUuid(@PathVariable UUID uuid){
-        @NotNull Optional<Contact> contactExist = repository.findById(uuid);
-        if(contactExist.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ContactResponseDto("not found"));
-        }
-        return repository.findById(uuid);
+    public Object contactByUuid(@PathVariable UUID uuid) {
+        return contactService.findByUuid(uuid);
     }
+
     @DeleteMapping("/contact/{uuid}")
-    public ResponseEntity<Object> contactDelete(@PathVariable UUID uuid){
-        @NotNull Optional<Contact> contactExist = repository.findById(uuid);
-        if(contactExist.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{'msg': 'not found'}");
-        }
-         repository.deleteById(uuid);
-         return ResponseEntity.status(HttpStatus.OK).body("{'msg': 'delete'}");
+    public ResponseEntity<Object> contactDelete(@PathVariable UUID uuid) {
+        return contactService.deleteByUuid(uuid);
     }
+
     @PatchMapping("/contact/{uuid}")
-    public Object contactPath(@RequestBody  Contact contact, @PathVariable UUID uuid){
-        @NotNull Optional<Contact> contactUpdate = repository.findById(uuid);
-        if (contactUpdate.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ContactResponseDto("not found"));
-        }
-        return repository.save(contact);
+    public Object contactPath(@RequestBody Contact contact, @PathVariable UUID uuid) {
+        return contactService.patchByUuid(uuid, contact);
     }
-    @GetMapping("/contact/count")
-    public Object contactCount(){
-        return repository.count();
-    }
+
 }
