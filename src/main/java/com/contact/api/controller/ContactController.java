@@ -1,25 +1,23 @@
 package com.contact.api.controller;
 
-import com.contact.api.dto.response.ContactResponseDto;
 import com.contact.api.model.Contact;
 import com.contact.api.service.ContactService;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
-public class Controller {
+public class ContactController {
     @Autowired
     private ContactService contactService;
 
     @PostMapping("/contact")
-    public Contact contactCreate(@RequestBody Contact contact) {
+    public Contact contactCreate(@Valid @RequestBody Contact contact) {
         return contactService.save(contact);
     }
 
@@ -31,7 +29,7 @@ public class Controller {
     }
 
     @GetMapping("/contact/{uuid}")
-    public Object contactByUuid(@PathVariable UUID uuid) {
+    public ResponseEntity<Object> contactByUuid(@PathVariable UUID uuid) {
         return contactService.findByUuid(uuid);
     }
 
@@ -41,7 +39,7 @@ public class Controller {
     }
 
     @PatchMapping("/contact/{uuid}")
-    public Object contactPath(@RequestBody Contact contact, @PathVariable UUID uuid) {
+    public ResponseEntity<Object> contactPath(@Valid @RequestBody Contact contact, @PathVariable UUID uuid) {
         return contactService.patchByUuid(uuid, contact);
     }
 

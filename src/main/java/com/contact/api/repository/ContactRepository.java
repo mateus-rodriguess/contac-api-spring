@@ -21,4 +21,6 @@ public interface ContactRepository extends PagingAndSortingRepository<Contact, U
     void deleteById(UUID uuid);
 
     Optional<Contact> findById(UUID uuid);
+
+    Boolean existsById(UUID uuid);
 }

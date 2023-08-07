@@ -1,6 +1,8 @@
 package com.contact.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
@@ -11,10 +13,12 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Column(name = "name", length = 255)
+    @NotBlank(message = "Name is mandatory")
+    @NotNull
     private String name;
-    @Column(name = "age", length = 4)
-    private int age;
     @Column(name = "telephone_number", length = 15)
+    @NotBlank(message = "Telephone number is mandatory")
+    @NotNull
     private String telephoneNumber;
 
     public UUID getId(){
@@ -25,12 +29,6 @@ public class Contact {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public int getAge() {
-        return age;
-    }
-    public void setAge(int age) {
-        this.age = age;
     }
     public String getTelephoneNumber() {
         return telephoneNumber;
