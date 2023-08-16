@@ -23,8 +23,13 @@ public class ContactController {
 
     @GetMapping("/contact")
     public Page<Contact> contactList(@RequestParam(defaultValue = "0") final Integer pageNumber,
-                                     @RequestParam(defaultValue = "5") final Integer size) {
+                                     @RequestParam(defaultValue = "5") final Integer size,
+                                     @RequestParam(required = false) final String name) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
+
+        if(!name.isEmpty()){
+            return contactService.findByName(name, pageRequest);
+        }
         return contactService.findAll(pageRequest);
     }
 

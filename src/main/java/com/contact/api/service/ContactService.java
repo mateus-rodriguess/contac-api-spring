@@ -34,7 +34,7 @@ public class ContactService {
         return ResponseEntity.status(HttpStatus.OK).body(contactExist);
     }
 
-    public Page<Contact> findAll(PageRequest page) {
+    public Page<Contact> findAll(Pageable page) {
         return contactRepository.findAll(page);
     }
 
@@ -55,5 +55,9 @@ public class ContactService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ContactResponseDto("Not found"));
         }
         return ResponseEntity.status(HttpStatus.OK).body(contactRepository.save(contact));
+    }
+
+    public Page<Contact> findByName(String name, Pageable pageable){
+        return contactRepository.findAllName(name, pageable);
     }
 }
