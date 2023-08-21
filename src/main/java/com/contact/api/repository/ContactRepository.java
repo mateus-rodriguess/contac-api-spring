@@ -25,7 +25,7 @@ public interface ContactRepository extends PagingAndSortingRepository<Contact, U
 
     Boolean existsById(UUID uuid);
 
-    @Query(value = "select * from contact c where c.name = ?1", nativeQuery = true)
+    @Query(value = "select * from contact c where c.name = :name", nativeQuery = true)
     Page<Contact> findAllName(String name, Pageable pageable);
 
 }

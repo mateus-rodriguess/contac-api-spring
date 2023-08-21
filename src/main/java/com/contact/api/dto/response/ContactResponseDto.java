@@ -1,12 +1,11 @@
 package com.contact.api.dto.response;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 @Data
 public class ContactResponseDto {
-    private String message;
 
     public ContactResponseDto(String message) {
-        this.message = message;
     }
 }

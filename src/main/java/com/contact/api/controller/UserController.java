@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/users")
     public Page<User> usersList(@RequestParam(defaultValue = "0") Integer pageNumber,
-                                @RequestParam(defaultValue = "5") Integer size) {
+                                @RequestParam(defaultValue = "100") Integer size) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
         return userService.userList(pageRequest);
     }

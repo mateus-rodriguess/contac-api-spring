@@ -1,6 +1,7 @@
 package com.contact.api.controller;
 
 import com.contact.api.model.Contact;
+import com.contact.api.model.User;
 import com.contact.api.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,23 +12,24 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@RestController
+@RestController()
 public class ContactController {
     @Autowired
     private ContactService contactService;
 
     @PostMapping("/contact")
-    public Contact contactCreate(@Valid @RequestBody Contact contact) {
+    public Contact contactCreate(@Valid @RequestBody Contact contact){
         return contactService.save(contact);
     }
 
     @GetMapping("/contact")
     public Page<Contact> contactList(@RequestParam(defaultValue = "0") final Integer pageNumber,
-                                     @RequestParam(defaultValue = "5") final Integer size,
-                                     @RequestParam(required = false) final String name) {
+                                     @RequestParam(defaultValue = "100") final Integer size,
+                                     @RequestParam(required = false) final String name,
+                                     @RequestParam(required = false) final String telephoneNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
-        if(!name.isEmpty()){
+        if(!(name == null)){
             return contactService.findByName(name, pageRequest);
         }
         return contactService.findAll(pageRequest);
