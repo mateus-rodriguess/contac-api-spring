@@ -25,7 +25,7 @@ public class Contact {
     @NotNull
     private String telephoneNumber;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name="idUser",referencedColumnName="id", insertable=false, updatable=false)
     private User user;
 }

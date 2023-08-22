@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -28,27 +29,8 @@ public class User {
     @Email
     private String email;
 
-    public UUID getId() {
-        return id;
-    }
+    @ManyToOne(cascade = CascadeType.MERGE, optional=false)
+    @JoinColumn(name="id_contact",referencedColumnName="id")
+    private Contact contact;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

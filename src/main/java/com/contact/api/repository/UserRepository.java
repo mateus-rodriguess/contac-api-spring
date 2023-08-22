@@ -20,4 +20,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
 
     void deleteById(UUID uuid);
 
+    Boolean existsByEmail(String email);
+
+    Boolean existsByUsername(String username);
 }

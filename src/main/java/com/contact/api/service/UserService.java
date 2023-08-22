@@ -24,9 +24,18 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Transactional()
-    public User userCreate(User user) {
-        return (User) userRepository.save(user);
+
+    public ResponseEntity<Object> userCreate(User user) {
+        Boolean userEmailExist = userRepository.existsByEmail(user.getEmail());
+        Boolean userUsernameExist = userRepository.existsByUsername(user.getUsername());
+        if(userEmailExist){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new UserResponseDto("Email is already in use"));
+        }
+        if(userUsernameExist){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new UserResponseDto("Username is already in use"));
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(user));
     }
 
     public Page<User> userList(PageRequest page) {

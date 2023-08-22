@@ -1,9 +1,12 @@
 package com.contact.api.service;
 
 import com.contact.api.configuration.exception.ContactNotFoundException;
+import com.contact.api.configuration.exception.UserNotFoundException;
 import com.contact.api.dto.response.ContactResponseDto;
 import com.contact.api.model.Contact;
+import com.contact.api.model.User;
 import com.contact.api.repository.ContactRepository;
+import com.contact.api.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,8 +23,10 @@ import java.util.UUID;
 public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @Transactional()
+    @Transactional
     public Contact save(Contact contact) {
         return (Contact) contactRepository.save(contact);
     }

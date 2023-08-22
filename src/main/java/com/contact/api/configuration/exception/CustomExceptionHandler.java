@@ -61,7 +61,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
     @ExceptionHandler(ContactNotFoundException.class)
-    public ResponseEntity<Object> handleCityNotFoundException(
+    public ResponseEntity<Object> handleContactNotFoundException(
             ContactNotFoundException ex, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
@@ -69,7 +69,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Contact not found");
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(NoDataFoundException.class)
     public ResponseEntity<Object> handleNoDataFoundException(
@@ -80,6 +80,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("message", "Not found");
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundException(
+            UserNotFoundException exception, WebRequest request
+    ){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", "user not found");
+
+        return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
     }
 
 }
