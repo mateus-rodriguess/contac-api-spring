@@ -25,7 +25,4 @@ public class Contact {
     @NotNull
     private String telephoneNumber;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name="idUser",referencedColumnName="id", insertable=false, updatable=false)
-    private User user;
 }

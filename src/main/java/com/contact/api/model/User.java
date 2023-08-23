@@ -29,8 +29,7 @@ public class User {
     @Email
     private String email;
 
-    @ManyToOne(cascade = CascadeType.MERGE, optional=false)
-    @JoinColumn(name="id_contact",referencedColumnName="id")
+    @ManyToOne(cascade=CascadeType.PERSIST)
     private Contact contact;
 
 }
