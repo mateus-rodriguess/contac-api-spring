@@ -24,7 +24,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-
+    @Transactional
     public ResponseEntity<Object> userCreate(User user) {
         Boolean userEmailExist = userRepository.existsByEmail(user.getEmail());
         Boolean userUsernameExist = userRepository.existsByUsername(user.getUsername());
@@ -43,11 +43,12 @@ public class UserService {
     }
 
     public ResponseEntity<Object> userByUuid(UUID uuid) {
-        @NotNull Optional<User> userExists = userRepository.findById(uuid);
+        Optional<User> userExists = userRepository.findById(uuid);
 
         if (userExists.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new UserResponseDto("Not found"));
         }
+        
         return ResponseEntity.status(HttpStatus.OK).body(userExists);
     }
 
@@ -69,7 +70,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new UserResponseDto("Not found"));
         }
         userRepository.deleteById(uuid);
-        return ResponseEntity.status(HttpStatus.OK).body("User deleted");
+        return ResponseEntity.status(HttpStatus.OK).body(new UserResponseDto("User deleted"));
 
     }
 

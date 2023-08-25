@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.intellij.lang.annotations.Pattern;
+import org.intellij.lang.annotations.RegExp;
 
 import java.util.UUID;
 
@@ -16,12 +18,12 @@ public class Contact {
     private UUID id;
 
     @Column(name = "name", length = 255)
-    @NotBlank(message = "Name is mandatory")
+    @NotBlank(message = "Name cannot be empty")
     @NotNull
     private String name;
 
     @Column(name = "telephone_number", length = 15)
-    @NotBlank(message = "Telephone number is mandatory")
+    @NotBlank(message = "Telephone number cannot be empty")
     @NotNull
     private String telephoneNumber;
 
